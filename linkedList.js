@@ -102,6 +102,44 @@ function linkedList() {
     return str;
   }
 
+  const insertAt = (value, index) => {
+    let prev = undefined;
+    let curr = _head;
+    let i = 0;
+
+    if(index === 0) {
+      prepend(value);
+    } else {
+      if(index > _size) return console.error('Invalid index for insertion.');
+
+      while(index !== i) {
+        prev = curr;
+        curr = curr.next;
+        i += 1;
+      }
+
+      prev.next = node(value, curr);
+      _size += 1;
+    }
+  }
+
+  const removeAt = (index) => {
+    let prev = undefined;
+    let curr = _head;
+    let i = 0;
+
+    if(index >= _size) return console.error('Invalid index for deletion');
+
+    while(i < index) {
+      prev = curr;
+      curr = curr.next;
+      i += 1;
+    }
+
+    prev.next = curr.next;
+    _size -= 1;
+  }
+
   return {
     get head() { return _head; },
     get size() { return _size },
@@ -112,14 +150,21 @@ function linkedList() {
     pop,
     contains,
     find,
-    toString
+    toString,
+    insertAt,
+    removeAt
   }
 }
 let myList = linkedList();
-myList.prepend('World');
 myList.prepend('Hello');
+myList.append('World');
 myList.append('Buzz');
 myList.append('I"m under the water');
+
 console.log(myList.toString(), myList.size);
-myList.pop();
-console.log(myList.size);
+myList.insertAt('Test', 4);
+console.log(myList.toString(), myList.size);
+myList.removeAt(4);
+console.log(myList.toString(), myList.size);
+myList.removeAt(3);
+console.log(myList.toString(), myList.size);
