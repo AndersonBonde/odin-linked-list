@@ -29,12 +29,40 @@ function linkedList() {
     return curr;
   }
 
+  const at = (num) => {
+    let idx = 0;
+    let curr = _head;
+
+    while(idx < num) {
+      curr = curr.next;
+      idx += 1;
+    }
+
+    return curr !== null ? curr : 'Not a valid index';
+  }
+
+  const pop = () => {
+    let curr = _head;
+    let prev = undefined;
+
+    if(_head !== null) _size -= 1;
+
+    while(curr.next !== null) {
+      prev = curr;
+      curr = curr.next;
+    }
+
+    prev.next = null;
+  }
+
   return {
     get head() { return _head; },
     get size() { return _size },
     get tail() { return tail() },
     prepend,
-    append
+    append,
+    at,
+    pop
   }
 }
 let myList = linkedList();
@@ -42,4 +70,6 @@ myList.prepend('World');
 myList.prepend('Hello');
 myList.append('Hello');
 myList.append('I"m under the water');
-console.log(myList.tail);
+console.log(myList.at(3), myList.size);
+myList.pop();
+console.log(myList.tail, myList.size);
