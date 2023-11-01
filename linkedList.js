@@ -15,6 +15,11 @@ function linkedList() {
   }
 
   const append = (value) => {
+    if(_head === null) {
+      prepend(value); 
+      return;
+    }
+
     _size += 1;
     let curr = _head;
 
@@ -55,6 +60,48 @@ function linkedList() {
     prev.next = null;
   }
 
+  const contains = (value) => {
+    let curr = _head;
+
+    while(curr.next !== null) {
+      if(curr.data === value) return true;
+      curr = curr.next;
+    }
+
+    return false;
+  }
+
+  const find = (value) => {
+    let curr = _head;
+    let idx = 0;
+
+    while(curr.next !== null) {
+      if(curr.data === value) return idx;
+
+      curr = curr.next;
+      idx += 1;
+    }
+
+    return null;
+  }
+
+  const toString = () => {
+    let curr = _head;
+    let str = '';
+
+    if(_head === null) return str += 'null';
+
+    while(curr.next !== null) {
+      str += ` ( ${curr.data} ) ->`;
+
+      curr = curr.next;
+    }
+    str += ` ( ${curr.data} ) ->`;
+    str += ` null'`;
+
+    return str;
+  }
+
   return {
     get head() { return _head; },
     get size() { return _size },
@@ -62,14 +109,17 @@ function linkedList() {
     prepend,
     append,
     at,
-    pop
+    pop,
+    contains,
+    find,
+    toString
   }
 }
 let myList = linkedList();
 myList.prepend('World');
 myList.prepend('Hello');
-myList.append('Hello');
+myList.append('Buzz');
 myList.append('I"m under the water');
-console.log(myList.at(3), myList.size);
+console.log(myList.toString(), myList.size);
 myList.pop();
-console.log(myList.tail, myList.size);
+console.log(myList.size);
