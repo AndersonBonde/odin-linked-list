@@ -156,15 +156,8 @@ function linkedList() {
   }
 }
 let myList = linkedList();
-myList.prepend('Hello');
+myList.append('Hello');
 myList.append('World');
 myList.append('Buzz');
 myList.append('I"m under the water');
-
-console.log(myList.toString(), myList.size);
-myList.insertAt('Test', 4);
-console.log(myList.toString(), myList.size);
-myList.removeAt(4);
-console.log(myList.toString(), myList.size);
-myList.removeAt(3);
 console.log(myList.toString(), myList.size);
