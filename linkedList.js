@@ -1,22 +1,20 @@
-function node(data, next = null) {
-  return {
-    data,
-    next
-  }
-}
+const node = require('./node.js');
 
 function linkedList() {
   let _head = null;
+  let _tail = null;
   let _size = 0;
 
   const prepend = (value) => {
     _size += 1;
     _head = node(value, _head);
+
+    if (_size === 1) _tail = _head;
   }
 
   const append = (value) => {
     if(_head === null) {
-      prepend(value); 
+      prepend(value);
       return;
     }
 
@@ -25,6 +23,7 @@ function linkedList() {
 
     while(curr.next !== null) curr = curr.next;
     curr.next = node(value, null);
+    _tail = curr.next;
   }
 
   const tail = () => {
@@ -38,12 +37,15 @@ function linkedList() {
     let idx = 0;
     let curr = _head;
 
+    if (num >= _size) throw new Error('Index out of bounds: The specified index exceeds the size of the list.')
+
     while(idx < num) {
       curr = curr.next;
       idx += 1;
     }
-
-    return curr !== null ? curr : 'Not a valid index';
+    
+    const value = curr.data;
+    return value;
   }
 
   const pop = () => {
@@ -57,26 +59,35 @@ function linkedList() {
       curr = curr.next;
     }
 
-    prev.next = null;
+    if (prev) {
+      prev.next = null;
+      _tail = prev;
+    } else {
+      _head = null;
+      _tail = null;
+    }
+
+    const value = curr.data;
+    return value;
   }
 
-  const contains = (value) => {
+  const contains = (key) => {
     let curr = _head;
 
-    while(curr.next !== null) {
-      if(curr.data === value) return true;
+    while(curr !== null) {
+      if(curr.data == key) return true;
       curr = curr.next;
     }
 
     return false;
   }
 
-  const find = (value) => {
+  const find = (key) => {
     let curr = _head;
     let idx = 0;
 
-    while(curr.next !== null) {
-      if(curr.data === value) return idx;
+    while(curr !== null) {
+      if(curr.data == key) return idx;
 
       curr = curr.next;
       idx += 1;
@@ -87,19 +98,16 @@ function linkedList() {
 
   const toString = () => {
     let curr = _head;
-    let str = '';
+    let messageArr = [];
 
-    if(_head === null) return str += 'null';
-
-    while(curr.next !== null) {
-      str += ` ( ${curr.data} ) ->`;
+    while(curr !== null) {
+      messageArr.push(curr.data);
 
       curr = curr.next;
     }
-    str += ` ( ${curr.data} ) ->`;
-    str += ` null'`;
+    messageArr.push('null');
 
-    return str;
+    return messageArr.join(' -> ');
   }
 
   const insertAt = (value, index) => {
@@ -110,7 +118,7 @@ function linkedList() {
     if(index === 0) {
       prepend(value);
     } else {
-      if(index > _size) return console.error('Invalid index for insertion.');
+      if(index > _size) throw new Error('Invalid index for insertion.');
 
       while(index !== i) {
         prev = curr;
@@ -128,7 +136,7 @@ function linkedList() {
     let curr = _head;
     let i = 0;
 
-    if(index >= _size) return console.error('Invalid index for deletion');
+    if(index >= _size) throw new Error('Invalid index for deletion');
 
     while(i < index) {
       prev = curr;
@@ -136,14 +144,17 @@ function linkedList() {
       i += 1;
     }
 
-    prev.next = curr.next;
+    if (index == 0) _head = curr.next;
+    else prev.next = curr.next;
+
+    _tail = tail();
     _size -= 1;
   }
 
   return {
     get head() { return _head; },
     get size() { return _size },
-    get tail() { return tail() },
+    get tail() { return _tail },
     prepend,
     append,
     at,
@@ -155,9 +166,5 @@ function linkedList() {
     removeAt
   }
 }
-let myList = linkedList();
-myList.append('Hello');
-myList.append('World');
-myList.append('Buzz');
-myList.append('I"m under the water');
-console.log(myList.toString(), myList.size);
+
+module.exports = linkedList;
