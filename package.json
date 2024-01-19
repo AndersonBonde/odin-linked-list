@@ -1,0 +1,15 @@
+{
+  "name": "odin-linked-list",
+  "version": "1.0.0",
+  "description": "This repo is a The Odin Project(TOP) exercise to learn about linked lists.",
+  "main": "linkedList.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
