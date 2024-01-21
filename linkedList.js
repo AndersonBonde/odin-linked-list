@@ -27,6 +27,7 @@ function linkedList() {
   }
 
   const tail = () => {
+    if (_head === null) return null;
     let curr = _head;
 
     while(curr.next !== null) curr = curr.next;
@@ -127,6 +128,8 @@ function linkedList() {
       }
 
       prev.next = node(value, curr);
+
+      if (index === _size) _tail = prev.next;
       _size += 1;
     }
   }
@@ -144,7 +147,7 @@ function linkedList() {
       i += 1;
     }
 
-    if (index == 0) _head = curr.next;
+    if (index === 0) _head = curr.next;
     else prev.next = curr.next;
 
     _tail = tail();
